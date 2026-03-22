@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decompressedKey = exports.decompressedPath = exports.decompressObject = void 0;
+exports.decompressObject = decompressObject;
+exports.decompressedPath = decompressedPath;
+exports.decompressedKey = decompressedKey;
 function decompressObject(table, obj) {
     if (typeof obj !== 'object' || obj === null)
         return obj;
@@ -21,7 +23,6 @@ function decompressObject(table, obj) {
         return ret;
     }
 }
-exports.decompressObject = decompressObject;
 /**
  * transform a compressed object-path
  * into its non-compressed version
@@ -37,7 +38,6 @@ function decompressedPath(table, path) {
         return compressedKey;
     }).join('.');
 }
-exports.decompressedPath = decompressedPath;
 function decompressedKey(table, key) {
     /**
         * keys could be array-accessors like myArray[4]
@@ -54,5 +54,4 @@ function decompressedKey(table, key) {
         return decompressed + readdSquared;
     }
 }
-exports.decompressedKey = decompressedKey;
 //# sourceMappingURL=decompress.js.map

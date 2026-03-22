@@ -1,7 +1,8 @@
 import type {
     PlainJsonObject,
     CompressionTable,
-    MangoQuery
+    MangoQuery,
+    CompressionResult
 } from './types';
 
 /**
@@ -35,6 +36,25 @@ export function compressObject(
         }
         return ret;
     }
+}
+
+/**
+ * Compress an object and return both the compressed schema
+ * and a map of original keys to compressed keys.
+ */
+export function compress(
+    table: CompressionTable,
+    obj: PlainJsonObject
+): CompressionResult {
+    const compressedSchema = compressObject(table, obj);
+    const compressionMap: Record<string, string> = {};
+    table.compressedToUncompressed.forEach((compressedKey, originalKey) => {
+        compressionMap[originalKey] = table.compressionFlag + compressedKey;
+    });
+    return {
+        compressedSchema,
+        compressionMap
+    };
 }
 
 /**

@@ -1,9 +1,14 @@
-import type { PlainJsonObject, CompressionTable, MangoQuery } from './types';
+import type { PlainJsonObject, CompressionTable, MangoQuery, CompressionResult } from './types';
 /**
  * compress the keys of an object via the compression-table
  * @recursive
  */
 export declare function compressObject(table: CompressionTable, obj: PlainJsonObject): PlainJsonObject;
+/**
+ * Compress an object and return both the compressed schema
+ * and a map of original keys to compressed keys.
+ */
+export declare function compress(table: CompressionTable, obj: PlainJsonObject): CompressionResult;
 /**
  * transform an object-path
  * into its compressed version

@@ -24,6 +24,21 @@ export function compressObject(table, obj) {
     }
 }
 /**
+ * Compress an object and return both the compressed schema
+ * and a map of original keys to compressed keys.
+ */
+export function compress(table, obj) {
+    var compressedSchema = compressObject(table, obj);
+    var compressionMap = {};
+    table.compressedToUncompressed.forEach(function (compressedKey, originalKey) {
+        compressionMap[originalKey] = table.compressionFlag + compressedKey;
+    });
+    return {
+        compressedSchema: compressedSchema,
+        compressionMap: compressionMap
+    };
+}
+/**
  * transform an object-path
  * into its compressed version
  * e.g:
