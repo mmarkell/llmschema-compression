@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uncompressedToCompressedTable = exports.compressedToUncompressedTable = exports.getPropertiesOfSchema = exports.createCompressionTable = exports.DEFAULT_COMPRESSION_FLAG = void 0;
+exports.DEFAULT_COMPRESSION_FLAG = void 0;
+exports.createCompressionTable = createCompressionTable;
+exports.getPropertiesOfSchema = getPropertiesOfSchema;
+exports.compressedToUncompressedTable = compressedToUncompressedTable;
+exports.uncompressedToCompressedTable = uncompressedToCompressedTable;
 var util_1 = require("./util");
 /**
  * Compressed property-names begin with the compression-flag
@@ -20,7 +24,6 @@ function createCompressionTable(schema, compressionFlag, ignoreProperties) {
     };
     return compressionTable;
 }
-exports.createCompressionTable = createCompressionTable;
 /**
  * Returns a list of all property names that occur in the schema.
  * @returns Set of strings to ensure uniqueness.
@@ -54,7 +57,6 @@ function getPropertiesOfSchema(schema) {
     }
     return ret;
 }
-exports.getPropertiesOfSchema = getPropertiesOfSchema;
 function compressedToUncompressedTable(schema, ignoreProperties) {
     var attributes = getPropertiesOfSchema(schema);
     var schemaKeysSorted = Array.from(attributes).sort(util_1.alphabeticCompare);
@@ -69,7 +71,6 @@ function compressedToUncompressedTable(schema, ignoreProperties) {
     });
     return table;
 }
-exports.compressedToUncompressedTable = compressedToUncompressedTable;
 function uncompressedToCompressedTable(table, compressionFlag, ignoreProperties) {
     var reverseTable = new Map();
     Array.from(table.keys()).forEach(function (key) {
@@ -80,5 +81,4 @@ function uncompressedToCompressedTable(table, compressionFlag, ignoreProperties)
     });
     return reverseTable;
 }
-exports.uncompressedToCompressedTable = uncompressedToCompressedTable;
 //# sourceMappingURL=create-compression-table.js.map

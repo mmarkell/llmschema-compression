@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCompressedJsonSchema = void 0;
+exports.createCompressedJsonSchema = createCompressedJsonSchema;
 var util_1 = require("./util");
 var compress_1 = require("./compress");
 function createCompressedJsonSchema(compressionTable, schema) {
@@ -38,5 +38,4 @@ function createCompressedJsonSchema(compressionTable, schema) {
         return schema;
     }
 }
-exports.createCompressedJsonSchema = createCompressedJsonSchema;
 //# sourceMappingURL=create-compressed-json-schema.js.map

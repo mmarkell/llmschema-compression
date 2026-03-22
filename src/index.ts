@@ -6,7 +6,8 @@ export type {
     SortDirection,
     MangoQuery,
     JsonSchemaTypes,
-    JsonSchema
+    JsonSchema,
+    CompressionResult
 } from './types';
 
 export {
@@ -15,6 +16,7 @@ export {
 } from './create-compression-table';
 
 export {
+    compress,
     compressObject,
     compressedPath,
     compressQuerySelector,

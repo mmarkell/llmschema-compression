@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.flatClone = exports.alphabeticCompare = exports.numberToLetter = void 0;
+exports.alphabeticCompare = void 0;
+exports.numberToLetter = numberToLetter;
+exports.flatClone = flatClone;
 /**
  * @link https://de.wikipedia.org/wiki/Base58
  * this does not start with the numbers to generate valid variable-names
@@ -23,7 +25,6 @@ function numberToLetter(nr) {
         .map(function (d) { return base58Chars[d]; })
         .join('');
 }
-exports.numberToLetter = numberToLetter;
 var alphabeticCompare = function (a, b) {
     if (a < b) {
         return -1;
@@ -42,5 +43,4 @@ exports.alphabeticCompare = alphabeticCompare;
 function flatClone(obj) {
     return Object.assign({}, obj);
 }
-exports.flatClone = flatClone;
 //# sourceMappingURL=util.js.map

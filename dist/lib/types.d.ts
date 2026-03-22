@@ -18,6 +18,10 @@ export type PlainJsonObjectNotArray = {
 
 export type PlainJsonObject = PlainJsonObjectNotArray | PlainJsonObjectNotArray[];
 
+export type CompressionResult = {
+    compressedSchema: PlainJsonObject;
+    compressionMap: Record<string, string>;
+};
 
 export type SortDirection = 'asc' | 'desc' | 1 | -1;
 

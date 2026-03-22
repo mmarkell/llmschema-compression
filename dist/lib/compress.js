@@ -1,6 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.compressQuerySelector = exports.compressQuery = exports.compressedAndFlaggedKey = exports.throwErrorIfCompressionFlagUsed = exports.compressedPath = exports.compressObject = void 0;
+exports.compressObject = compressObject;
+exports.compress = compress;
+exports.compressedPath = compressedPath;
+exports.throwErrorIfCompressionFlagUsed = throwErrorIfCompressionFlagUsed;
+exports.compressedAndFlaggedKey = compressedAndFlaggedKey;
+exports.compressQuery = compressQuery;
+exports.compressQuerySelector = compressQuerySelector;
 /**
  * compress the keys of an object via the compression-table
  * @recursive
@@ -26,7 +32,21 @@ function compressObject(table, obj) {
         return ret;
     }
 }
-exports.compressObject = compressObject;
+/**
+ * Compress an object and return both the compressed schema
+ * and a map of original keys to compressed keys.
+ */
+function compress(table, obj) {
+    var compressedSchema = compressObject(table, obj);
+    var compressionMap = {};
+    table.compressedToUncompressed.forEach(function (compressedKey, originalKey) {
+        compressionMap[originalKey] = table.compressionFlag + compressedKey;
+    });
+    return {
+        compressedSchema: compressedSchema,
+        compressionMap: compressionMap
+    };
+}
 /**
  * transform an object-path
  * into its compressed version
@@ -42,14 +62,12 @@ function compressedPath(table, path) {
         return compressedKey;
     }).join('.');
 }
-exports.compressedPath = compressedPath;
 function throwErrorIfCompressionFlagUsed(table, key) {
     if (key.startsWith(table.compressionFlag)) {
         throw new Error('cannot compress objects that start with the compression-flag: ' +
             table.compressionFlag + ' on key ' + key);
     }
 }
-exports.throwErrorIfCompressionFlagUsed = throwErrorIfCompressionFlagUsed;
 function compressedAndFlaggedKey(table, key) {
     throwErrorIfCompressionFlagUsed(table, key);
     /**
@@ -67,7 +85,6 @@ function compressedAndFlaggedKey(table, key) {
         return table.compressionFlag + compressedKey + readdSquared;
     }
 }
-exports.compressedAndFlaggedKey = compressedAndFlaggedKey;
 /**
  * compress a mango-query
  * so that it can be used to find documents
@@ -117,7 +134,6 @@ function compressQuery(table, query) {
     }
     return ret;
 }
-exports.compressQuery = compressQuery;
 /**
  * @recursive
  */
@@ -148,5 +164,4 @@ function compressQuerySelector(table, selector) {
         return selector;
     }
 }
-exports.compressQuerySelector = compressQuerySelector;
 //# sourceMappingURL=compress.js.map

@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import {
+    compress,
     compressObject,
     compressedPath,
     compressQuerySelector,
@@ -12,6 +13,41 @@ import {
 } from './test-util';
 
 describe('compress.test.ts', () => {
+    describe('.compress()', () => {
+        it('should return an object with compressedSchema and compressionMap', () => {
+            const table = getDefaultCompressionTable();
+            const result = compress(table, getDefaultObject());
+            assert.ok(result.compressedSchema);
+            assert.ok(result.compressionMap);
+            assert.strictEqual(typeof result.compressionMap, 'object');
+        });
+        it('compressedSchema should match compressObject output', () => {
+            const table = getDefaultCompressionTable();
+            const obj = getDefaultObject();
+            const result = compress(table, obj);
+            const directCompressed = compressObject(table, obj);
+            assert.deepStrictEqual(result.compressedSchema, directCompressed);
+        });
+        it('compressionMap should contain mappings from original to compressed keys', () => {
+            const table = getDefaultCompressionTable();
+            const result = compress(table, getDefaultObject());
+            // 'active' should be mapped to '|a' based on the compression table
+            assert.ok(result.compressionMap['active']);
+            assert.strictEqual(result.compressionMap['active'], '|a');
+        });
+        it('compressionMap should have all compressed keys from the table', () => {
+            const table = getDefaultCompressionTable();
+            const result = compress(table, getDefaultObject());
+            // All keys in the compression table should be in the compressionMap
+            table.compressedToUncompressed.forEach((compressedKey, originalKey) => {
+                assert.ok(result.compressionMap[originalKey], `Missing key: ${originalKey}`);
+                assert.strictEqual(
+                    result.compressionMap[originalKey],
+                    table.compressionFlag + compressedKey
+                );
+            });
+        });
+    });
     describe('.compressObject()', () => {
         it('should not throw', () => {
             const compressed = compressObject(
